@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiran Girishkumar</title>
+<meta name="description" content="Kiran Girishkumar, M.Sc. ICT student at FAU Erlangen-Nürnberg working on physical design (RTL-to-GDSII).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pat:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' fill='none' stroke='%23b4461e' stroke-opacity='.13' stroke-width='1.2'%3E%3Cpath d='M0 20h50v40h60v-30h50M20 0v50h40M160 90h-40v40H70v30M0 120h30V90h40M100 0v20M140 60v60'/%3E%3Cg fill='%23b4461e' fill-opacity='.22' stroke='none'%3E%3Crect x='47' y='17' width='6' height='6'/%3E%3Crect x='107' y='57' width='6' height='6'/%3E%3Crect x='57' y='47' width='6' height='6'/%3E%3Crect x='117' y='127' width='6' height='6'/%3E%3Crect x='27' y='87' width='6' height='6'/%3E%3Crect x='137' y='117' width='6' height='6'/%3E%3C/g%3E%3C/svg%3E");
+  --bg:#fbfaf7; --text:#1d1d1b; --muted:#62625e; --line:#e4e2dc; --accent:#b4461e; --link:#1f5aa6; --soft:#f2f0ea; --card:#ffffff;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --pat:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' fill='none' stroke='%23f08a5d' stroke-opacity='.10' stroke-width='1.2'%3E%3Cpath d='M0 20h50v40h60v-30h50M20 0v50h40M160 90h-40v40H70v30M0 120h30V90h40M100 0v20M140 60v60'/%3E%3Cg fill='%23f08a5d' fill-opacity='.18' stroke='none'%3E%3Crect x='47' y='17' width='6' height='6'/%3E%3Crect x='107' y='57' width='6' height='6'/%3E%3Crect x='57' y='47' width='6' height='6'/%3E%3Crect x='117' y='127' width='6' height='6'/%3E%3Crect x='27' y='87' width='6' height='6'/%3E%3Crect x='137' y='117' width='6' height='6'/%3E%3C/g%3E%3C/svg%3E"); --bg:#151514; --text:#e9e8e4; --muted:#a3a29c; --line:#2d2c29; --accent:#f08a5d; --link:#8ab6f0; --soft:#1e1d1b; --card:#1b1a19; }
+}
+:root[data-theme="dark"]{ --pat:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' fill='none' stroke='%23f08a5d' stroke-opacity='.10' stroke-width='1.2'%3E%3Cpath d='M0 20h50v40h60v-30h50M20 0v50h40M160 90h-40v40H70v30M0 120h30V90h40M100 0v20M140 60v60'/%3E%3Cg fill='%23f08a5d' fill-opacity='.18' stroke='none'%3E%3Crect x='47' y='17' width='6' height='6'/%3E%3Crect x='107' y='57' width='6' height='6'/%3E%3Crect x='57' y='47' width='6' height='6'/%3E%3Crect x='117' y='127' width='6' height='6'/%3E%3Crect x='27' y='87' width='6' height='6'/%3E%3Crect x='137' y='117' width='6' height='6'/%3E%3C/g%3E%3C/svg%3E"); --bg:#151514; --text:#e9e8e4; --muted:#a3a29c; --line:#2d2c29; --accent:#f08a5d; --link:#8ab6f0; --soft:#1e1d1b; --card:#1b1a19; }
+
+/* sticky nav, reveal, cards */
+.nav{position:fixed;top:0;left:0;right:0;z-index:4;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);transform:translateY(-100%);transition:transform .25s}
+.nav.show{transform:none}
+.nav-in{max-width:760px;margin:0 auto;padding:10px 64px 10px 20px;display:flex;align-items:center;gap:18px;font-size:14px;overflow-x:auto;white-space:nowrap}
+.nav-in b{font-weight:600;margin-right:auto}
+.nav-in a{color:var(--muted)}
+.nav-in a:hover,.nav-in a.on{color:var(--accent);text-decoration:none}
+.proj{transition:border-color .2s,transform .2s,box-shadow .2s}
+.proj:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.06)}
+.rv{opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){.rv{opacity:1;transform:none}.proj:hover{transform:none}}
+.up{position:fixed;right:14px;bottom:14px;z-index:5;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--text);display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.up.show{opacity:1;pointer-events:auto}
+.up:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+html{scroll-behavior:smooth;scroll-padding-top:60px}
+
+/* link buttons */
+.lnk{display:inline-flex;align-items:center;gap:7px;font-size:14.5px;font-weight:500;color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:7px 13px;transition:border-color .15s,transform .15s,background .15s}
+.lnk:hover{text-decoration:none;border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+.lnk.main{background:var(--accent);border-color:var(--accent);color:#fff}
+.lnk.main:hover{color:#fff;filter:brightness(1.08)}
+.lnk.sm{font-size:13.5px;padding:5px 11px;border-radius:6px}
+.lnk.copied{border-color:var(--accent);color:var(--accent)}
+.contact{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.links{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px;color:var(--muted)}
+.theme{position:fixed;top:14px;right:14px;z-index:5;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;display:grid;place-items:center;font-size:16px}
+.theme:hover{border-color:var(--accent)}
+.cta{margin-top:56px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:30px 24px;text-align:center}
+.cta h2{margin:0 0 8px;color:var(--text);font-size:22px;text-transform:none;letter-spacing:0}
+.cta p{color:var(--muted)}
+.cta .contact{justify-content:center}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',-apple-system,Segoe UI,sans-serif;font-size:17px;line-height:1.65}
+main{max-width:760px;margin:0 auto;padding:56px 20px 40px}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.mono{font-family:'IBM Plex Mono',monospace}
+
+/* header */
+.top{display:flex;gap:20px;align-items:center;margin-bottom:22px}
+.mark{flex:none;width:64px;height:64px;border-radius:12px;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:22px}
+h1{font-size:32px;font-weight:600;margin:0;line-height:1.2}
+.sub{color:var(--muted);margin:2px 0 0}
+.intro{font-size:18px}
+.note{background:var(--soft);border-left:3px solid var(--accent);padding:12px 16px;margin:26px 0 0;font-size:15.5px}
+
+h2{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:56px 0 20px}
+h3{font-size:19px;font-weight:600;margin:0}
+p{margin:0 0 14px}
+
+/* projects */
+.proj{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 22px 18px;margin-bottom:18px}
+.head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.date{color:var(--muted);font-size:14px;white-space:nowrap}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px}
+.tags span{font-size:12.5px;background:var(--soft);border:1px solid var(--line);border-radius:4px;padding:1px 8px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:4px 0 14px}
+.stat{border-top:2px solid var(--accent);padding-top:6px}
+.stat b{display:block;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:18px}
+.stat small{color:var(--muted);font-size:13px}
+figure{margin:6px 0 16px}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:13.5px;color:var(--muted);margin-top:6px}
+
+/* notes */
+.notes{counter-reset:n;list-style:none;padding:0;margin:0}
+.notes li{counter-increment:n;position:relative;padding:0 0 18px 44px}
+.notes li::before{content:counter(n,decimal-leading-zero);position:absolute;left:0;top:1px;font-family:'IBM Plex Mono',monospace;color:var(--accent);font-size:15px}
+.notes b{display:block;font-weight:600}
+.notes span{color:var(--muted);font-size:15.5px}
+
+.item{margin-bottom:26px}
+.where{color:var(--muted);font-size:14.5px;margin:2px 0 8px}
+.skills{display:grid;grid-template-columns:140px 1fr;gap:6px 16px;margin:0}
+.skills dt{font-weight:500}
+.skills dd{margin:0;color:var(--muted)}
+@media(max-width:560px){.skills{grid-template-columns:1fr}.skills dd{margin-bottom:8px}}
+/* flow strip */
+.flow{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin:30px 0 6px}
+.flow div{font-size:12px;text-align:center;padding:8px 2px;border-radius:5px;background:var(--soft);border:1px solid var(--line);cursor:default;transition:.2s;line-height:1.25}
+.flow div.hit{background:var(--accent);border-color:var(--accent);color:#fff}
+.flow-legend{display:flex;flex-wrap:wrap;gap:6px;font-size:13px;color:var(--muted);align-items:center}
+.flow-legend button{font:inherit;font-size:12.5px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:999px;padding:2px 10px;cursor:pointer}
+.flow-legend button:hover,.flow-legend button.sel{border-color:var(--accent);color:var(--accent)}
+@media(max-width:560px){.flow{grid-template-columns:repeat(4,1fr)}}
+
+/* now */
+.now{display:grid;grid-template-columns:110px 1fr;gap:8px 16px;margin:0}
+.now dt{color:var(--muted);font-size:14px;padding-top:2px}
+.now dd{margin:0}
+@media(max-width:560px){.now{grid-template-columns:1fr}.now dd{margin-bottom:8px}}
+
+/* PhyFlow rule pipeline */
+.pipe{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:4px 0 16px;font-size:13px}
+.pipe .step{border:1px solid var(--line);background:var(--soft);border-radius:6px;padding:5px 9px}
+.pipe .step.llm{border-color:var(--accent);color:var(--accent)}
+.pipe .step.ok{background:var(--accent);border-color:var(--accent);color:#fff}
+.pipe .arr{color:var(--muted)}
+
+/* systolic animation */
+.sa{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin:4px 0 16px}
+.grid8{display:grid;grid-template-columns:repeat(8,22px);gap:3px}
+.grid8 div{width:22px;height:22px;border-radius:3px;background:var(--soft);border:1px solid var(--line);transition:background .25s}
+.grid8 div.on{background:var(--accent);border-color:var(--accent)}
+.sa-side{font-size:14px;color:var(--muted);max-width:300px}
+.sa-side b{color:var(--text);font-family:'IBM Plex Mono',monospace;font-weight:500}
+.btn{font:inherit;font-size:13.5px;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:6px;padding:4px 10px;cursor:pointer;margin-right:6px}
+.btn.sel{border-color:var(--accent);color:var(--accent)}
+
+/* PDN explorer */
+.pdn{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px}
+.pdn-row{display:flex;gap:22px;flex-wrap:wrap;align-items:center}
+#heat{width:240px;height:240px;border-radius:6px;display:block;max-width:100%}
+.pdn-read{flex:1;min-width:220px}
+.pdn-read .big{font-family:'IBM Plex Mono',monospace;font-size:34px;font-weight:500;line-height:1.1}
+.pdn-read .pct{color:var(--muted);font-size:14px;margin-bottom:10px}
+.meter{height:8px;background:var(--soft);border-radius:4px;overflow:hidden;margin:6px 0 4px}
+.meter i{display:block;height:100%;background:var(--accent);transition:width .4s}
+.meter-l{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+
+footer{margin-top:60px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+
+/* compact + background */
+body{font-size:15.5px;line-height:1.6;
+  background-image:
+    radial-gradient(ellipse at top, transparent 0, var(--bg) 70%),
+    var(--pat);
+  background-attachment:fixed;background-size:100% 100%,160px 160px}
+main{max-width:740px;padding-top:44px}
+h1{font-size:28px}
+.intro{font-size:16px}
+h2{margin:40px 0 14px}
+h3{font-size:17px}
+.proj{padding:18px 18px 14px;margin-bottom:14px;background:color-mix(in srgb,var(--card) 92%,transparent)}
+.tags{margin:6px 0 10px}
+.pts{margin:0 0 12px;padding-left:18px}
+.pts li{margin-bottom:3px}
+.stat b{font-size:16px}
+.note{margin-top:18px;padding:9px 14px;font-size:14.5px}
+.notes li{padding-bottom:12px}
+.notes span{font-size:14.5px}
+.item{margin-bottom:18px}
+figure{margin:2px 0 10px}
+.cta{margin-top:40px;padding:24px 20px}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav"><div class="nav-in"><b>Kiran Girishkumar</b>
+<a href="#projects">Projects</a><a href="#pdn">Experiment</a><a href="#notes">Lessons</a><a href="#experience">Experience</a><a href="#contact">Contact</a></div></nav>
+<a class="up" id="up" href="#" aria-label="Back to top"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
+<button class="theme" id="theme" type="button" aria-label="Switch light or dark mode"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button>
+<main>
+
+<header>
+  <div class="top">
+    <div class="mark">KG</div>
+    <div>
+      <h1>Kiran Girishkumar</h1>
+      <p class="sub">Physical design · M.Sc. ICT at FAU Erlangen-Nürnberg</p>
+    </div>
+  </div>
+  <p class="intro">RTL-to-GDSII physical design: floorplan, power grid, placement, CTS, routing, sign-off. Open-source flow (OpenROAD, OpenLane, OpenSTA) on Sky130, Nangate45 and ASAP7. Currently building an agent that automates timing and IR-drop closure.</p>
+  <div class="contact"><a class="lnk" href="mailto:kirangirishkumar543@gmail.com"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span>Email me</span></a><a class="lnk" href="https://github.com/kiran-kichu" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span>GitHub</span></a><a class="lnk" href="https://linkedin.com/in/kiran-girishkumar-45157b189" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M0 1.15C0 .52.52 0 1.18 0h13.64C15.48 0 16 .52 16 1.15v13.7c0 .63-.52 1.15-1.18 1.15H1.18C.52 16 0 15.48 0 14.85V1.15zM4.9 13.4V6.17H2.5v7.23h2.4zM3.7 5.18c.84 0 1.36-.56 1.36-1.26-.02-.71-.52-1.25-1.34-1.25S2.35 3.2 2.35 3.92c0 .7.52 1.26 1.33 1.26h.02zm2.53 8.22h2.4V9.36c0-.21.02-.43.08-.58.17-.43.57-.88 1.23-.88.87 0 1.22.66 1.22 1.63v3.87h2.4V9.25c0-2.22-1.18-3.25-2.76-3.25-1.3 0-1.86.72-2.18 1.21V6.17h-2.4c.04.68 0 7.23 0 7.23z"/></svg><span>LinkedIn</span></a><a class="lnk" href="resume.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 14h6M9 17h4"/></svg><span>Resume</span></a><button class="lnk" id="copy" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg><span>Copy email</span></button></div>
+  <p class="note">Looking for a <b>Werkstudent</b> position, <b>internship</b> or <b>Master's thesis</b> in physical design. Based in Erlangen.</p>
+
+  <div class="flow" id="flow">
+    <div data-s="rtl">RTL</div><div data-s="syn">Synthesis</div><div data-s="fp">Floorplan</div><div data-s="pdn">Power grid</div>
+    <div data-s="pl">Placement</div><div data-s="cts">CTS</div><div data-s="rt">Routing</div><div data-s="so">Sign-off</div>
+  </div>
+  <div class="flow-legend">Where each project spent its time:
+    <button data-p="rtl syn fp pdn pl cts rt so">PicoRV32</button>
+    <button data-p="rtl syn fp pl cts rt so">Systolic array</button>
+    <button data-p="fp pdn rt so">SoC + PDN</button>
+    <button data-p="so">Ibex</button>
+    <button data-p="pdn so">PhyFlow</button>
+  </div>
+</header>
+
+<section id="projects">
+  <h2>Projects</h2>
+
+  <article class="proj">
+    <div class="head"><h3>PhyFlow: an agent for timing and IR-drop closure</h3><span class="date">May – Aug 2026</span></div>
+    <div class="tags"><span>Python</span><span>OpenSTA</span><span>OpenROAD</span><span>Docker</span><span>Fly.io</span></div>
+    <ul class="pts"><li>Automates the ECO loop: propose a fix (cell resize, PDN strap change), test it on a copy, keep it only if it passes fixed rules.</li><li>LLM only picks the next move; accept/reject is deterministic Python checking hold, area budget and minimum gain.</li><li>Deployed publicly on Fly.io with OpenSTA built from source in Docker.</li></ul>
+    <div class="pipe" aria-label="How a move is decided">
+      <span class="step llm">LLM picks a move</span><span class="arr">→</span>
+      <span class="step">apply to a copy</span><span class="arr">→</span>
+      <span class="step">measure with OpenSTA / OpenROAD</span><span class="arr">→</span>
+      <span class="step">hard limits?</span><span class="arr">→</span>
+      <span class="step">real gain?</span><span class="arr">→</span>
+      <span class="step">within budget?</span><span class="arr">→</span>
+      <span class="step ok">keep</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>−0.38 → 0 ns</b><small>WNS, PicoRV32 @ 3.8 ns</small></div>
+      <div class="stat"><b>+10 µm²</b><small>area to close it</small></div>
+      <div class="stat"><b>78.6 → 15.3 mV</b><small>worst IR drop</small></div>
+    </div>
+    <div class="links"><a class="lnk sm main" href="https://sta-agent-docker.fly.dev/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg><span>Live demo</span></a><a class="lnk sm" href="https://github.com/kiran-kichu/sta-timing-agent" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span>Code</span></a></div>
+  </article>
+
+  <article class="proj">
+    <div class="head"><h3>PicoRV32 RISC-V core, RTL to GDSII</h3><span class="date">Feb – Apr 2026</span></div>
+    <div class="tags"><span>ORFS</span><span>Sky130</span><span>OpenSTA</span></div>
+    <ul class="pts"><li>Full flow on Sky130; 0 setup, hold, DRC and antenna violations.</li><li>Swept clock period 10 → 3.8 ns instead of trusting the reported fmax; the critical path moves as constraints tighten.</li><li>Same RTL, critical path 5.78 → 4.07 ns (−29.5%) from constraint-driven synthesis and sizing.</li></ul>
+    <figure>
+      <svg viewBox="0 0 600 100" style="max-width:520px" role="img" aria-label="Critical path delay at loose versus tight clock constraint">
+        <text x="0" y="30" font-size="13" fill="currentColor" opacity=".7" font-family="IBM Plex Sans">loose SDC</text>
+        <rect x="90" y="16" width="480" height="22" rx="3" fill="currentColor" opacity=".18"/>
+        <text x="100" y="32" font-size="13" font-family="IBM Plex Mono" fill="currentColor">5.78 ns</text>
+        <text x="0" y="78" font-size="13" fill="currentColor" opacity=".7" font-family="IBM Plex Sans">tight SDC</text>
+        <rect x="90" y="64" width="338" height="22" rx="3" fill="#d0602f"/>
+        <text x="100" y="80" font-size="13" font-family="IBM Plex Mono" fill="#fff">4.07 ns</text>
+        <text x="440" y="80" font-size="13" font-family="IBM Plex Sans" fill="#d0602f">−29.5%</text>
+        <text x="90" y="98" font-size="12.5" fill="currentColor" opacity=".6" font-family="IBM Plex Sans">post-route critical path, same RTL</text>
+      </svg>
+    </figure>
+    <div class="stats">
+      <div class="stat"><b>238 MHz</b><small>closed post-route</small></div>
+      <div class="stat"><b>0.211 mm²</b><small>die, 47% util</small></div>
+      <div class="stat"><b>549 µV</b><small>worst IR drop</small></div>
+      <div class="stat"><b>0</b><small>setup/hold/DRC</small></div>
+    </div>
+    <div class="links"><a class="lnk sm" href="https://github.com/kiran-kichu/picorv32-physical-design" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span>Code on GitHub</span></a></div>
+  </article>
+
+  <article class="proj">
+    <div class="head"><h3>8×8 systolic-array MAC accelerator</h3><span class="date">Apr – May 2026</span></div>
+    <div class="tags"><span>Verilog</span><span>OpenROAD</span><span>Nangate45</span></div>
+    <ul class="pts"><li>Wrote the RTL: 64 MAC units, activations flow left to right, weights top to bottom.</li><li>Neighbour-only wiring keeps the critical path inside one PE (the multiplier).</li><li>40% utilization by choice, leaving room for routing and the power grid under 64 simultaneous multipliers.</li></ul>
+    <div class="sa">
+      <div class="grid8" id="sa" aria-label="Animation of data moving through an 8 by 8 systolic array"></div>
+      <div class="sa-side">
+        Cycle <b id="sa-c">0</b> · active PEs <b id="sa-n">0</b>/64<br>
+        Data enters top-left and sweeps diagonally; every PE is active by cycle 15.
+        <div style="margin-top:10px"><button class="btn" id="sa-b">Pause</button></div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>625 MHz</b><small>closed post-route</small></div>
+      <div class="stat"><b>~40 GMAC/s</b><small>throughput</small></div>
+      <div class="stat"><b>0.062 mm²</b><small>~34k cells</small></div>
+    </div>
+    <div class="links"><a class="lnk sm" href="https://github.com/kiran-kichu/systolic-array-ai-accelerator" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span>Code on GitHub</span></a><span>includes a cycle-by-cycle visualizer</span></div>
+  </article>
+
+  <article class="proj">
+    <div class="head"><h3>Hierarchical SoC integration and power grid</h3><span class="date">Apr – Jun 2026</span></div>
+    <div class="tags"><span>OpenLane</span><span>Sky130</span><span>Magic</span><span>KLayout</span><span>Tcl</span></div>
+    <ul class="pts"><li>Integrated a pre-hardened 8-bit CPU macro into a 250 × 250 µm top level; macro placed first, met4/met5 straps tied to its power pins.</li><li>GDS verified with a Magic vs KLayout XOR; clean LVS and DRC.</li><li>Tcl script runs clock sweeps unattended: 3 full runs in 87 s.</li></ul>
+    <div class="stats">
+      <div class="stat"><b>11 µV</b><small>worst IR drop</small></div>
+      <div class="stat"><b>0 ns</b><small>WNS @ 66.7 MHz</small></div>
+      <div class="stat"><b>0</b><small>LVS mismatches</small></div>
+    </div>
+    <div class="links"><a class="lnk sm" href="https://github.com/kiran-kichu/soc-pdn-sky130" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span>Code on GitHub</span></a></div>
+  </article>
+
+  <article class="proj">
+    <div class="head"><h3>Ibex core, multi-corner sign-off</h3><span class="date">Jul 2026</span></div>
+    <div class="tags"><span>ORFS</span><span>ASAP7</span><span>OpenSTA</span></div>
+    <ul class="pts"><li>Setup signed off at the SS corner, hold at FF, on the 7 nm ASAP7 predictive PDK.</li><li>Over-constrained 1000 → 950 ps to measure real remaining margin.</li></ul>
+    <div class="stats"><div class="stat"><b>0</b><small>setup violations</small></div><div class="stat"><b>0</b><small>hold violations</small></div><div class="stat"><b>950 ps</b><small>tightest tested</small></div></div>
+    <div class="links"><a class="lnk sm" href="https://github.com/kiran-kichu/ibex-mcmm-asap7" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span>Code on GitHub</span></a></div>
+  </article>
+</section>
+
+<section id="pdn">
+  <h2>A power grid experiment</h2>
+  <div class="pdn">
+    <p style="margin-bottom:14px">Same PicoRV32 layout, three strap configurations. Pick one to see the measured worst-case IR drop.</p>
+    <div style="margin-bottom:16px">
+      <button class="btn" data-k="sparse">Sparse grid</button><button class="btn sel" data-k="base">Default grid</button><button class="btn" data-k="wide">Wider straps</button>
+    </div>
+    <div class="pdn-row">
+      <canvas id="heat" width="240" height="240" aria-label="Illustrative IR-drop heat map"></canvas>
+      <div class="pdn-read">
+        <div class="big" id="pdn-v">33.7 mV</div>
+        <div class="pct" id="pdn-p">1.87% of 1.8 V</div>
+        <div id="pdn-d" style="font-size:15px;margin-bottom:12px"></div>
+        <div class="meter"><i id="pdn-m"></i></div>
+        <div class="meter-l"><span>0%</span><span>5% budget</span></div>
+      </div>
+    </div>
+    <p style="font-size:13.5px;color:var(--muted);margin:14px 0 0">Measured values; heat map is a simplified drawing.</p>
+  </div>
+</section>
+
+<section id="notes">
+  <h2>Things I learned the hard way</h2>
+  <ol class="notes">
+    <li><b>The reported fmax is a guess.</b><span>The critical path moves as the clock tightens. Sweep and see what closes.</span></li>
+    <li><b>Decap doesn't help static IR drop.</b><span>Capacitors are invisible to DC analysis. The apparent gain came from removed fillers; only straps moved the worst case.</span></li>
+    <li><b>Doubling strap width halved the IR drop.</b><span>1.6 → 3.2 µm straps: 33.7 → 15.3 mV on PicoRV32, as resistance scaling predicts. 1.6 µm is Sky130's minimum.</span></li>
+    <li><b>Limits should sit between the steps, not on them.</b><span>A 6.0 µm² cap sat just under Sky130's 6.26 µm² upsize step and blocked good fixes. 7.0 µm² fixed it.</span>
+      <svg viewBox="0 0 560 70" style="width:100%;max-width:560px;display:block;margin-top:10px" role="img" aria-label="Sky130 area steps with old and new cap">
+        <line x1="10" y1="40" x2="550" y2="40" stroke="currentColor" opacity=".35"/>
+        <g font-family="IBM Plex Mono" font-size="11.5" fill="currentColor">
+          <circle cx="70" cy="40" r="4"/><text x="70" y="62" text-anchor="middle" opacity=".7">1.25</text>
+          <circle cx="130" cy="40" r="4"/><text x="130" y="62" text-anchor="middle" opacity=".7">2.50</text>
+          <circle cx="400" cy="40" r="4"/><text x="400" y="62" text-anchor="middle" opacity=".7">6.26</text>
+          <circle cx="510" cy="40" r="4"/><text x="510" y="62" text-anchor="middle" opacity=".7">8.76 µm²</text>
+        </g>
+        <line x1="394" y1="12" x2="394" y2="48" stroke="#999" stroke-dasharray="3 3"/>
+        <text x="390" y="14" font-size="11.5" text-anchor="end" fill="#999" font-family="IBM Plex Sans">old cap 6.0</text>
+        <line x1="440" y1="12" x2="440" y2="48" stroke="#d0602f" stroke-width="2"/>
+        <text x="444" y="14" font-size="11.5" fill="#d0602f" font-family="IBM Plex Sans">new cap 7.0</text>
+      </svg></li>
+  </ol>
+</section>
+
+<section id="now">
+  <h2>Right now</h2>
+  <dl class="now">
+    <dt>Building</dt><dd>PhyFlow power agent for any uploaded design</dd>
+    <dt>Next project</dt><dd>Multi-voltage (UPF) design in OpenROAD</dd>
+    <dt>Learning</dt><dd>German (A1)</dd>
+  </dl>
+</section>
+
+<section id="experience">
+  <h2>Experience</h2>
+  <div class="item">
+    <div class="head"><h3>Project Intern, Vikram Sarabhai Space Centre (ISRO)</h3><span class="date">Oct 2023 – Apr 2024</span></div>
+    <div class="where">Thiruvananthapuram, India</div>
+    <ul class="pts"><li>868 MHz backscatter link for battery-free sensor nodes: 100 kbps over 3.5 m at ~100 µW.</li><li>FM0 encoding and modulation firmware in Embedded C on a PIC16F1719.</li><li>Real-time receiver chain in LabVIEW FPGA.</li></ul>
+  </div>
+</section>
+
+<section>
+  <h2>Education</h2>
+  <div class="item">
+    <div class="head"><h3>M.Sc. Information and Communication Technology</h3><span class="date">Oct 2025 – present</span></div>
+    <div class="where">Friedrich-Alexander-Universität Erlangen-Nürnberg</div>
+  </div>
+  <div class="item">
+    <div class="head"><h3>B.Tech Electronics and Communication Engineering</h3><span class="date">Nov 2020 – Jun 2024</span></div>
+    <div class="where">Sree Chitra Thirunal College of Engineering, Thiruvananthapuram · CGPA 7.93/10 · GATE 2025 ECE, AIR 9109</div>
+  </div>
+</section>
+
+<section>
+  <h2>Skills</h2>
+  <dl class="skills">
+    <dt>Physical design</dt><dd>Floorplanning, placement, CTS, routing, STA, multi-corner analysis, PDN design, IR drop, DRC/LVS</dd>
+    <dt>Tools</dt><dd>OpenROAD, ORFS, OpenLane, Yosys, OpenSTA, Magic, KLayout, iVerilog, GTKWave, Vivado, Cadence Virtuoso</dd>
+    <dt>Languages</dt><dd>Verilog, Tcl, Python, C</dd>
+    <dt>Spoken</dt><dd>English (C1), German (A1, learning)</dd>
+  </dl>
+</section>
+
+<div class="cta" id="contact"><h2>Working on physical design?</h2><p>Open to Werkstudent roles, internships and thesis topics.</p><div class="contact"><a class="lnk" href="mailto:kirangirishkumar543@gmail.com"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span>Email me</span></a><a class="lnk" href="https://linkedin.com/in/kiran-girishkumar-45157b189" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M0 1.15C0 .52.52 0 1.18 0h13.64C15.48 0 16 .52 16 1.15v13.7c0 .63-.52 1.15-1.18 1.15H1.18C.52 16 0 15.48 0 14.85V1.15zM4.9 13.4V6.17H2.5v7.23h2.4zM3.7 5.18c.84 0 1.36-.56 1.36-1.26-.02-.71-.52-1.25-1.34-1.25S2.35 3.2 2.35 3.92c0 .7.52 1.26 1.33 1.26h.02zm2.53 8.22h2.4V9.36c0-.21.02-.43.08-.58.17-.43.57-.88 1.23-.88.87 0 1.22.66 1.22 1.63v3.87h2.4V9.25c0-2.22-1.18-3.25-2.76-3.25-1.3 0-1.86.72-2.18 1.21V6.17h-2.4c.04.68 0 7.23 0 7.23z"/></svg><span>Connect on LinkedIn</span></a><a class="lnk" href="resume.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 14h6M9 17h4"/></svg><span>Resume</span></a></div></div>
+<footer>Kiran Girishkumar · Erlangen, Germany</footer>
+
+</main>
+<script>
+/* sticky nav, back to top, reveal on scroll */
+(function(){
+  const nav=document.getElementById('nav'),up=document.getElementById('up'),links=[...nav.querySelectorAll('a')];
+  const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+  function onScroll(){
+    const y=scrollY;nav.classList.toggle('show',y>420);up.classList.toggle('show',y>800);
+    let cur=-1;secs.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top<120)cur=i;});
+    links.forEach((a,i)=>a.classList.toggle('on',i===cur));
+  }
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+  up.onclick=e=>{e.preventDefault();scrollTo({top:0,behavior:'smooth'});};
+  const items=document.querySelectorAll('.proj,.pdn,.notes li,.item,.cta');
+  if('IntersectionObserver' in window){
+    items.forEach(el=>el.classList.add('rv'));
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{rootMargin:'0px 0px -8% 0px'});
+    items.forEach(el=>io.observe(el));
+  }
+})();
+
+/* theme + copy email */
+(function(){
+  const r=document.documentElement,b=document.getElementById('theme');
+  try{const t=localStorage.getItem('theme');if(t)r.dataset.theme=t;}catch(e){}
+  b.onclick=()=>{const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;const n=dark?'light':'dark';r.dataset.theme=n;try{localStorage.setItem('theme',n)}catch(e){}};
+  const c=document.getElementById('copy'),s=c.querySelector('span');
+  c.onclick=async()=>{try{await navigator.clipboard.writeText('kirangirishkumar543@gmail.com');s.textContent='Copied!';c.classList.add('copied');}catch(e){s.textContent='kirangirishkumar543@gmail.com';}setTimeout(()=>{s.textContent='Copy email';c.classList.remove('copied');},2000);};
+})();
+const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* flow strip */
+(function(){
+  const cells=[...document.querySelectorAll('#flow div')],btns=[...document.querySelectorAll('.flow-legend button')];
+  function pick(b){const s=b?b.dataset.p.split(' '):[];cells.forEach(c=>c.classList.toggle('hit',s.includes(c.dataset.s)));btns.forEach(x=>x.classList.toggle('sel',x===b));}
+  btns.forEach(b=>{b.onmouseenter=()=>pick(b);b.onclick=()=>pick(b);});
+  pick(btns[0]);
+})();
+
+/* systolic array wave */
+(function(){
+  const g=document.getElementById('sa'),c=document.getElementById('sa-c'),n=document.getElementById('sa-n'),b=document.getElementById('sa-b');
+  const cells=[];for(let i=0;i<64;i++){const d=document.createElement('div');g.appendChild(d);cells.push(d);}
+  let t=0,run=!still,timer=null;
+  function draw(){
+    let on=0;
+    cells.forEach((d,i)=>{const r=Math.floor(i/8),k=i%8,a=(r+k)<=t&&t<=(r+k)+7;d.classList.toggle('on',a);if(a)on++;});
+    c.textContent=t;n.textContent=on;
+  }
+  function tick(){t=(t+1)%23;draw();}
+  function start(){timer=setInterval(tick,450);b.textContent='Pause';}
+  function stop(){clearInterval(timer);b.textContent='Play';}
+  b.onclick=()=>{run=!run;run?start():stop();};
+  if(still){t=7;draw();b.textContent='Play';}else{draw();start();}
+})();
+
+/* PDN explorer */
+(function(){
+  const cfg={
+    sparse:{v:78.6,p:4.37,pitch:2,w:1,d:'1.6 µm straps at double spacing. Inside the 2–5% zone where fixing it becomes a priority.'},
+    base:{v:33.7,p:1.87,pitch:1,w:1,d:'1.6 µm straps, the default pitch. Already the narrowest width Sky130 allows.'},
+    wide:{v:15.3,p:0.85,pitch:1,w:2,d:'Straps widened to 3.2 µm. Drop falls by 54.6%, about what halving the resistance predicts.'}
+  };
+  const cv=document.getElementById('heat'),x=cv.getContext('2d');
+  const V=document.getElementById('pdn-v'),P=document.getElementById('pdn-p'),D=document.getElementById('pdn-d'),M=document.getElementById('pdn-m');
+  function show(k){
+    const c=cfg[k],S=240,cell=8,sp=40*c.pitch,sw=3*c.w;
+    x.clearRect(0,0,S,S);
+    for(let i=0;i<S;i+=cell)for(let j=0;j<S;j+=cell){
+      const dx=Math.min((i+cell/2)%sp,sp-(i+cell/2)%sp)/(sp/2);
+      const dy=Math.min((j+cell/2)%sp,sp-(j+cell/2)%sp)/(sp/2);
+      const f=Math.min(1,(dx*dy+0.15*(dx+dy))/1.3)*(c.v/78.6);
+      x.fillStyle=`hsl(${48-f*48},85%,${88-f*38}%)`;x.fillRect(i,j,cell,cell);
+    }
+    x.fillStyle='rgba(40,70,140,.75)';
+    for(let s=0;s<=S;s+=sp){x.fillRect(s-sw/2,0,sw,S);x.fillRect(0,s-sw/2,S,sw);}
+    V.textContent=c.v+' mV';P.textContent=c.p+'% of 1.8 V';D.textContent=c.d;M.style.width=Math.min(100,c.p/5*100)+'%';
+    document.querySelectorAll('.pdn .btn').forEach(b=>b.classList.toggle('sel',b.dataset.k===k));
+  }
+  document.querySelectorAll('.pdn .btn').forEach(b=>b.onclick=()=>show(b.dataset.k));
+  show('base');
+})();
+</script>
+</body>
+</html>
